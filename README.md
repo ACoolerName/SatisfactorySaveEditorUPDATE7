@@ -58,3 +58,7 @@ Some people have encountered issues if they don't complete HUB tier 0 before run
 * The editor crashed!
 
 Please create a [github issue](https://github.com/Goz3rr/SatisfactorySaveEditor/issues/new) with the details of what you were doing before the editor crashed, and include the save file you were editing if you'd like. Please contact us on Discord (above) as well.
+
+* I don't know how to compile the code!
+
+Download Visual Studio & press the download code button on this repo. Open the SatisfactorySaveEditor.sln file. Press f5 to compile :)
