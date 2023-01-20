@@ -6,7 +6,7 @@
 
 **View installation instructions in the [guide](https://ficsit.app/guide/Z8h6z2CczH43c)**!
 
-**See the [releases page](https://github.com/Goz3rr/SatisfactorySaveEditor/releases) to download a compiled release**, or build your own by cloning this repo.
+**See the [releases page](https://github.com/ACoolerName/SatisfactorySaveEditorUPDATE7/releases) to download a compiled release**, or build your own by cloning this repo.
 Stuck? Bugs? Questions? Feel free to contact us here on Github or on the [Satisfactory Modding](https://bit.ly/SatisfactoryModding) discord server.
 
 A save editor for Satisfactory, a game by Coffee Stain Studios. Consists of both a save parser and an application for viewing and editing the parsed data.
