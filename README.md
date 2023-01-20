@@ -3,7 +3,7 @@
 # ![SSE Logo](https://i.imgur.com/YgnPVSo.png) Satisfactory Save Editor 
 
 ## Update 6/7 is now supported!
-WARNING: Sometimes deletes all data in save file, MAKE BACKUPS!!!!!
+## WARNING: Sometimes deletes all data in save file, MAKE BACKUPS!!!!!
 
 **View installation instructions in the [guide](https://ficsit.app/guide/Z8h6z2CczH43c)**!
 
