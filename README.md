@@ -2,9 +2,11 @@
 
 # ![SSE Logo](https://i.imgur.com/YgnPVSo.png) Satisfactory Save Editor 
 
-## This repo contains [etothepiiequals](https://github.com/etothepiiequals) update 6&7 fix
+## This repo contains [etothepiiequals](https://github.com/etothepiiequals) update 6&7 fix compiled release.
 ## Update 6/7 is now supported!
 ### WARNING: May corrupt save files, MAKE BACKUPS!!!!!
+
+###I did not write any of this code, the existance of this repo is simply to release a compiled version of [etothepiiequals](https://github.com/etothepiiequals) code as none was provided on their repo.
 
 **View installation instructions in the [guide](https://ficsit.app/guide/Z8h6z2CczH43c)**!
 
