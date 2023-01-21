@@ -2,7 +2,7 @@
 
 # ![SSE Logo](https://i.imgur.com/YgnPVSo.png) Satisfactory Save Editor 
 
-## This repo contains [etothepiiequals] (https://github.com/etothepiiequals) update 6&7 fix
+## This repo contains [etothepiiequals](https://github.com/etothepiiequals) update 6&7 fix
 ## Update 6/7 is now supported!
 ### WARNING: May corrupt save files, MAKE BACKUPS!!!!!
 
