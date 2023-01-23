@@ -1,0 +1,279 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:view="clr-namespace:SatisfactorySaveEditor.View"
+                    xmlns:property="clr-namespace:SatisfactorySaveEditor.ViewModel.Property"
+                    xmlns:structs="clr-namespace:SatisfactorySaveParser.PropertyTypes.Structs;assembly=SatisfactorySaveParser"
+                    xmlns:control="clr-namespace:SatisfactorySaveEditor.View.Control"
+                    xmlns:struct="clr-namespace:SatisfactorySaveEditor.ViewModel.Struct"
+                    xmlns:converter="clr-namespace:SatisfactorySaveEditor.Converter">
+    <converter:SerializablePropertyToTypeStringConverter x:Key="SerializablePropertyToTypeStringConverter"/>
+    <converter:IStructToTypeStringConverter x:Key="IStructToTypeStringConverter"/>
+
+    <DataTemplate DataType="{x:Type property:ArrayPropertyViewModel}">
+        <Expander IsExpanded="{Binding IsExpanded}">
+            <Expander.Header>
+                <TextBlock Text="{Binding Elements.Count, StringFormat='{}{0} elements'}"/>
+            </Expander.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListBox VirtualizingPanel.IsVirtualizing="True" HorizontalContentAlignment="Stretch" VirtualizingPanel.VirtualizationMode="Recycling" Grid.Row="0" ItemsSource="{Binding Elements}" MaxHeight="500">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <GroupBox ToolTip="{Binding ., Converter={StaticResource SerializablePropertyToTypeStringConverter}}">
+                                <GroupBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>
+                                            <TextBlock.Inlines>
+                                                <Run FontWeight="Bold" Text="{Binding Index, Mode=OneWay, StringFormat='#{0}'}"/>
+                                                <Run Text="{Binding PropertyName, Mode=OneWay}"/>
+                                            </TextBlock.Inlines>
+                                        </TextBlock>
+                                        <Button Margin="5,0,0,0" Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Center" Command="{Binding DataContext.RemoveElementCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding .}">
+                                            <Button.Content>
+                                                <TextBlock Text="X" FontWeight="DemiBold" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Button.Content>
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Grid x:Name="grid">
+                                                        <Border x:Name="border" CornerRadius="20" BorderBrush="#707070" BorderThickness="1" Background="White">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="Normal"/>
+                                                        </Border>
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" TargetName="border" Value="#BEE6FD"/>
+                                                            <Setter Property="BorderBrush" TargetName="border" Value="#3C7FB1"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="BorderBrush" TargetName="border" Value="#2C628B"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </StackPanel>
+                                </GroupBox.Header>
+                                <ContentControl Content="{Binding .}"/>
+                            </GroupBox>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Grid.Row="1" Content="Add element" Command="{Binding AddElementCommand}"/>
+            </Grid>
+        </Expander>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:BoolPropertyViewModel}">
+        <CheckBox IsChecked="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:BytePropertyViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" DockPanel.Dock="Left" Target="{Binding ElementName=TypeBox}" Content="Type:"/>
+            <TextBox Grid.Column="1" Grid.Row="0" DockPanel.Dock="Left" x:Name="TypeBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Column="0" Grid.Row="1" DockPanel.Dock="Left" Target="{Binding ElementName=ValueBox}" Content="Value:"/>
+            <TextBox Grid.Column="1" Grid.Row="1" DockPanel.Dock="Left" x:Name="ValueBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:EnumPropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:FloatPropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:DoublePropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:IntPropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:Int64PropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:UInt64PropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:UInt32PropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:MapPropertyViewModel}">
+        <Label Margin="4" VerticalContentAlignment="Center" Content="// TODO: MAP STUFF"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:NamePropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:ObjectPropertyViewModel}">
+        <!-- You may be wondering 'why did he use 2 dock panels in a stack panel' and 'this is so wrong'. And I agree with you, feel free to rewrite it into a grid. -->
+        <StackPanel Orientation="Vertical">
+            <DockPanel>
+                <Label DockPanel.Dock="Left" Target="{Binding ElementName=ParentBox}" Content="Parent:"/>
+                <TextBox DockPanel.Dock="Left" x:Name="ParentBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Str1, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel>
+                <Label DockPanel.Dock="Left" Target="{Binding ElementName=TargetBox}" Content="Target:"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" DockPanel.Dock="Left" x:Name="TargetBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Str2, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Grid.Column="1" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type view:MainWindow}}, Path=DataContext.JumpCommand}" CommandParameter="{Binding Str2}" DockPanel.Dock="Right"  Height="20" VerticalContentAlignment="Center" Content="Jump"/>
+                </Grid>
+            </DockPanel>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:InterfacePropertyViewModel}">
+        <!-- You may be wondering 'why did he use 2 dock panels in a stack panel' and 'this is so wrong'. Why? Because this is copied and edited from ObjectPropertyViewModel -->
+        <StackPanel Orientation="Vertical">
+            <DockPanel>
+                <Label DockPanel.Dock="Left" Target="{Binding ElementName=ParentBox}" Content="Parent:"/>
+                <TextBox DockPanel.Dock="Left" x:Name="ParentBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Str1, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel>
+                <Label DockPanel.Dock="Left" Target="{Binding ElementName=TargetBox}" Content="Target:"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" DockPanel.Dock="Left" x:Name="TargetBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Str2, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Grid.Column="1" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type view:MainWindow}}, Path=DataContext.JumpCommand}" CommandParameter="{Binding Str2}" DockPanel.Dock="Right"  Height="20" VerticalContentAlignment="Center" Content="Jump"/>
+                </Grid>
+            </DockPanel>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:StrPropertyViewModel}">
+        <TextBox Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:StructPropertyViewModel}">
+        <StackPanel Orientation="Vertical">
+            <ContentControl Content="{Binding StructData}"/>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type property:TextPropertyViewModel}">
+        <!-- You may be wondering 'why did he use 2 dock panels in a stack panel' or 'this is so wrong'. And I agree with you, feel free to rewrite it into a grid. -->
+        <StackPanel Orientation="Vertical">
+            <DockPanel>
+                <Label DockPanel.Dock="Left" Target="{Binding ElementName=ValueBox}" Content="Value:"/>
+                <TextBox DockPanel.Dock="Left" x:Name="ValueBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type struct:DynamicStructDataViewModel}">
+        <ItemsControl ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <GroupBox ToolTip="{Binding ., Converter={StaticResource IStructToTypeStringConverter}}" Header="{Binding PropertyName}">
+                        <ContentControl Content="{Binding .}"/>
+                    </GroupBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type structs:Box}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=MinVec}" Content="Min:"/>
+            <control:Vector3Control Grid.Column="1" Grid.Row="0" DockPanel.Dock="Left" x:Name="TypeBox" Margin="4" VerticalContentAlignment="Center" Vector="{Binding Min}"/>
+            <Label Grid.Column="0" Grid.Row="1" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=MaxVec}" Content="Max:"/>
+            <control:Vector3Control Grid.Column="1" Grid.Row="1" DockPanel.Dock="Left" x:Name="ValueBox" Margin="4" VerticalContentAlignment="Center" Vector="{Binding Max}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:Color}">
+        <control:ColorPicker Color="{Binding .}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:InventoryItem}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=Unknown1Box}" Content="Unknown1:"/>
+            <TextBox Grid.Column="1" Grid.Row="0" DockPanel.Dock="Left" x:Name="Unknown1Box" Margin="4" VerticalContentAlignment="Center" Text="{Binding Unknown1}"/>
+            <Label Grid.Column="0" Grid.Row="1" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=ItemTypeBox}" Content="ItemType:"/>
+            <TextBox Grid.Column="1" Grid.Row="1" DockPanel.Dock="Left" x:Name="ItemTypeBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding ItemType}"/>
+            <Label Grid.Column="0" Grid.Row="2" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=Unknown2Box}" Content="Unknown2:"/>
+            <TextBox Grid.Column="1" Grid.Row="2" DockPanel.Dock="Left" x:Name="Unknown2Box" Margin="4" VerticalContentAlignment="Center" Text="{Binding Unknown2}"/>
+            <Label Grid.Column="0" Grid.Row="3" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=Unknown3Box}" Content="Unknown3:"/>
+            <TextBox Grid.Column="1" Grid.Row="3" DockPanel.Dock="Left" x:Name="Unknown3Box" Margin="4" VerticalContentAlignment="Center" Text="{Binding Unknown3}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:FluidBox}">
+        <Label Margin="4" VerticalContentAlignment="Center" Content="// TODO: FluidBox PropertyTemplate"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:LinearColor}">
+        <control:LinearColorPicker LinearColor="{Binding .}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:Quat}">
+        <control:Vector4Control Vector="{Binding .}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:RailroadTrackPosition}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=RootBox}" Content="Root:"/>
+            <TextBox Grid.Column="1" Grid.Row="0" DockPanel.Dock="Left" x:Name="RootBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Root}"/>
+            <Label Grid.Column="0" Grid.Row="1" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=InstanceNameBox}" Content="InstanceName:"/>
+            <TextBox Grid.Column="1" Grid.Row="1" DockPanel.Dock="Left" x:Name="InstanceNameBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding InstanceName}"/>
+            <Label Grid.Column="0" Grid.Row="2" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=OffsetBox}" Content="Offset:"/>
+            <TextBox Grid.Column="1" Grid.Row="2" DockPanel.Dock="Left" x:Name="OffsetBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Offset}"/>
+            <Label Grid.Column="0" Grid.Row="3" DockPanel.Dock="Left" VerticalContentAlignment="Center" Target="{Binding ElementName=InstanceNameBox}" Content="Forward:"/>
+            <TextBox Grid.Column="1" Grid.Row="3" DockPanel.Dock="Left" x:Name="ForwardBox" Margin="4" VerticalContentAlignment="Center" Text="{Binding Forward}"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:Rotator}">
+        <control:Vector3Control Vector="{Binding Data}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:Vector}">
+        <control:Vector3Control Vector="{Binding Data}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:Vector2D}">
+        <control:Vector2Control Vector="{Binding Data}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type structs:Vector4D}">
+        <control:Vector4Control Vector="{Binding Data}"/>
+    </DataTemplate>
+</ResourceDictionary>
